@@ -14,12 +14,14 @@ class App extends Component {
   async componentDidMount() {
     this.setState({ loading: true });
 
-    const res = await axios.get("https://api.github.com/users");
+    const res = await axios.get(
+      `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
 
     this.setState({ users: res.data, loading: false });
   }
 
-  // Render is a lifecycle method that runs with the component is loaded
+  // Render is a lifecycle method that runs when this component is loaded
   render() {
     return (
       <div className="App">
