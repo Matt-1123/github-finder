@@ -13,6 +13,7 @@ class App extends Component {
   state = {
     users: [],
     user: {},
+    repos: [],
     loading: false,
     alert: null,
   };
@@ -39,6 +40,17 @@ class App extends Component {
     this.setState({ user: res.data, loading: false });
   };
 
+  // Get a user's repositories from GitHub
+  getUserRepos = async (username) => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    this.setState({ repos: res.data, loading: false });
+  };
+
   // Clear users from state
   clearUsers = () => {
     this.setState({ users: [], loading: false });
@@ -53,7 +65,7 @@ class App extends Component {
 
   // Render is a lifecycle method that runs when this component is loaded
   render() {
-    const { users, user, loading } = this.state;
+    const { users, user, repos, loading } = this.state;
 
     return (
       // Wrap Router around entire app so that all nested components have access to this Router component
@@ -82,6 +94,7 @@ class App extends Component {
               <Route exact path="/about" component={About} />
               {/* Note: :login represents the parameter at the end of the URL in the browser
               e.g. /user/matt-1123 */}
+              {/* uses match.path for its path prop and then dynamically changes the UI. */}
               <Route
                 exact
                 path="/user/:login"
@@ -89,7 +102,9 @@ class App extends Component {
                   <User
                     {...props}
                     getUser={this.getUser}
+                    getUserRepos={this.getUserRepos}
                     user={user}
+                    repos={repos}
                     loading={loading}
                   />
                 )}
