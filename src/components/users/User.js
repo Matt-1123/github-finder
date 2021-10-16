@@ -5,7 +5,9 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
-  // runs on any update, mimicking the behavior of componentDidMount.
+  // You can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined.
+  // The Effect Hook lets you perform side effects in function components:
+  // Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects.
   useEffect(() => {
     // call the getUser function in App.js with the :login URL parameter as the function's argument
     getUser(this.props.match.params.login);
