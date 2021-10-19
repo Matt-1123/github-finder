@@ -20,6 +20,7 @@ export default (state, action) => {
         user: action.payload,
         loading: false,
       };
+    // clear users from app-level state
     case CLEAR_USERS:
       return {
         ...state,

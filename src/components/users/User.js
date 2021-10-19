@@ -15,9 +15,9 @@ const User = ({ getUserRepos, repos, match }) => {
   // Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects.
   useEffect(() => {
     // call the getUser function in App.js with the :login URL parameter as the function's argument
-    getUser(this.props.match.params.login);
+    getUser(match.params.login);
     // call the getUserRepos function and pass in the :login URL parameter as the argument for username function parameter
-    getUserRepos(this.props.match.params.login);
+    getUserRepos(match.params.login);
     // eslint-disable-next-line
   }, []);
 

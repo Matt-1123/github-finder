@@ -10,6 +10,7 @@ import {
   GET_REPOS,
 } from "../types";
 
+// create initial state for Github-related data
 const GithubState = (props) => {
   const initialState = {
     users: [],
@@ -18,7 +19,7 @@ const GithubState = (props) => {
     loading: false,
   };
 
-  // dispatch a type back to reducer
+  // call an action, and then dispatch a type back to reducer
   const [state, dispatch] = useReducer(GithubReducer, initialState);
 
   // Search Users
@@ -29,6 +30,7 @@ const GithubState = (props) => {
       `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
 
+    // all actions end with a dispatch to the reducer with a type
     dispatch({
       type: SEARCH_USERS,
       payload: res.data.items,
@@ -57,6 +59,7 @@ const GithubState = (props) => {
   // Set Loading
   const setLoading = () => dispatch({ type: SET_LOADING });
 
+  // return the Provider, which will be wrapped around the entire application. Pass in value, which contains anything we want available to the entire app.
   return (
     <GithubContext.Provider
       value={{
