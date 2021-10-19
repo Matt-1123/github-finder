@@ -6,28 +6,13 @@ import User from "./components/users/User.js";
 import Search from "./components/users/Search";
 import Alert from "./components/layout/Alert";
 import About from "./components/pages/About";
-import axios from "axios";
 
 import GithubState from "./context/github/GithubState";
 
 import "./App.css";
 
 const App = () => {
-  const [repos, setRepos] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
-
-  // Get a user's repositories from GitHub
-  const getUserRepos = async (username) => {
-    setLoading(true);
-
-    const res = await axios.get(
-      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    );
-
-    setRepos(res.data);
-    setLoading(false);
-  };
 
   // Set alert
   const showAlert = (message, type) => {
@@ -62,13 +47,7 @@ const App = () => {
               {/* Note: :login represents the parameter at the end of the URL in the browser
               e.g. /user/matt-1123 */}
               {/* uses match.path for its path prop and then dynamically changes the UI. */}
-              <Route
-                exact
-                path="/user/:login"
-                render={(props) => (
-                  <User {...props} getUserRepos={getUserRepos} repos={repos} />
-                )}
-              />
+              <Route exact path="/user/:login" component={User} />
             </Switch>
           </div>
         </div>
